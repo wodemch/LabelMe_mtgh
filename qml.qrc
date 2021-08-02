@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MyIconButton.qml</file>
+        <file>MyMsgDialog.qml</file>
+        <file>MyLine.qml</file>
+        <file>MyPopup.qml</file>
+        <file>MymodifyParam.qml</file>
+        <file>MyText.qml</file>
+        <file>MyLabelNameInput.qml</file>
+        <file>MyListView.qml</file>
+    </qresource>
+</RCC>
