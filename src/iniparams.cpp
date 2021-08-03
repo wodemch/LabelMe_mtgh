@@ -25,9 +25,9 @@ bool IniParams::readIni()
     QSettings settings(mfileName,QSettings::IniFormat);
     settings.beginGroup("Basic");
     mParams.PixSize = settings.value("PixSize",QSize(5000,5000)).toSize();
-    mParams.AutoSave = settings.value("AutoSave",true).toBool();
+    mParams.AutoSave = settings.value("AutoSave",false).toBool();
     mParams.SaveFormt = settings.value("SaveFormt",0).toInt();
-    mParams.LineWidth = settings.value("LineWidth",1).toInt();
+    mParams.LineWidth = settings.value("LineWidth",2).toInt();
     mParams.LineColor = settings.value("LineColor","red").toString();
     mParams.LabelName = settings.value("LabelName","rect,polygon").toString();
     settings.endGroup();

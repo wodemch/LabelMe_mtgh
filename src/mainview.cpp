@@ -77,10 +77,12 @@ void MainView::openImage(QUrl path)
     QString filepath = path.toLocalFile();
     if(mOldfilepath!=filepath)
     {
-        if(!mJson.writeJson(mImgSize,mOldfilepath,mVGraphs))
-        {
-            QMessageBox::critical(NULL,"writejson error","writejson error:"+mOldfilepath);
-            return;
+        if(mIni->autoSave()){
+            if(!mJson.writeJson(mImgSize,mOldfilepath,mVGraphs))
+            {
+                QMessageBox::critical(NULL,"writejson error","writejson error:"+mOldfilepath);
+                return;
+            }
         }
         mVGraphs.clear();
         mVGraphs = mJson.readJson(filepath);
