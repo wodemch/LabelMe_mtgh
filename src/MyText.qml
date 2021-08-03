@@ -37,6 +37,7 @@ Item {
                 height: rec.height
                 font.pointSize: pointSize
                 inputMethodHints: Qt.ImhDigitsOnly
+                selectByMouse:true
                 text: qsTr("no set")
                 onTextChanged: {
                     textModify(text)

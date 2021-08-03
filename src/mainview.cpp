@@ -8,6 +8,7 @@ MainView::MainView(QQuickItem *parent) : QQuickPaintedItem(parent)
     painter = nullptr;
     pix = nullptr;
     ImagePix = nullptr;
+    bSelectMode=false;
     mVGraphs.clear();
     setFocus(true);
     mIni = new IniParams(this);
@@ -20,6 +21,16 @@ MainView::MainView(QQuickItem *parent) : QQuickPaintedItem(parent)
         drawPix();
     });
     mJson.jsonSaveFormt = mIni->saveFormt();
+}
+ MainView::~MainView()
+{
+    delete mIni;
+    delete painter;
+    delete pen;
+    delete selectPen;
+    delete pix;
+    delete Orcimg;
+    delete ImagePix;
 }
 
 void MainView::deleteFile(QUrl str)
@@ -125,6 +136,7 @@ void MainView::mouseEnevt(int button,bool pressed,int x,int y)
     case LEFT_BUTTON:
         if(mCurrentGraph.addPoint(QPoint(x,y)))
         {
+            bSelectMode = false;
             emit showSelectLabelName();
             mVGraphs.push_back(mCurrentGraph);
             mCurrentGraph.reset();
@@ -189,7 +201,7 @@ void MainView::drawPix()
     painter->setRenderHints(QPainter::Antialiasing);
     for(CGraph g:mVGraphs)
     {
-        painter->setPen(g.IsSelect == true ? *selectPen : *pen);
+        painter->setPen((g.IsSelect & bSelectMode) == true ? *selectPen : *pen);
         switch (g.Type)
         {
         case EG_RECT:
@@ -259,9 +271,16 @@ void MainView::modifyLabelName(QString labelName)
         mVGraphs.last().labelName = labelName;
         emit addLabelName(mVGraphs.size()-1,labelName);
     }
+    //label 添加保存
+    QString allLabel = mIni->labelName();
+    if(allLabel.indexOf(labelName)<0){
+        mIni->setlabelName(allLabel+","+labelName);
+        mIni->saveIni();
+    }
 }
 void MainView::selectOne(int index,QString labelName)
 {
+    bSelectMode=true;
     for(int i=0;i<mVGraphs.size();i++)
     {
         mVGraphs[i].IsSelect = false;
@@ -277,4 +296,10 @@ void MainView::deleteOneGraph(int index)
         mVGraphs.remove(index);
     }
     drawPix();
+}
+QList<QString> MainView::getLabelNameList()
+{
+    QList<QString> mLString;
+    mLString = mIni->labelName().split(',');
+    return mLString;
 }

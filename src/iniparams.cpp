@@ -9,12 +9,16 @@ IniParams::IniParams(QObject *parent) : QObject(parent)
     mfileName = QCoreApplication::applicationDirPath() +"/BasicParam.ini";
     readIni();
     view = new QQuickView();
-    view->setSource(QUrl("qrc:/MymodifyParam.qml"));
     view->engine()->rootContext()->setContextProperty("gg",this);
+    view->setSource(QUrl("qrc:/MymodifyParam.qml"));
     //view->setFlag(Qt::WindowMinMaxButtonsHint);
     view->setMinimumSize(QSize(500,300));
     view->setMaximumSize(QSize(500,300));
     view->setModality(Qt::WindowModality::ApplicationModal);
+}
+IniParams::~IniParams()
+{
+    view->destroy();
 }
 bool IniParams::readIni()
 {
@@ -25,6 +29,7 @@ bool IniParams::readIni()
     mParams.SaveFormt = settings.value("SaveFormt",0).toInt();
     mParams.LineWidth = settings.value("LineWidth",1).toInt();
     mParams.LineColor = settings.value("LineColor","red").toString();
+    mParams.LabelName = settings.value("LabelName","rect,polygon").toString();
     settings.endGroup();
     settings.sync();
     saveIni();
@@ -39,6 +44,7 @@ bool IniParams::saveIni()
     settings.setValue("SaveFormt",mParams.SaveFormt);
     settings.setValue("LineWidth",mParams.LineWidth);
     settings.setValue("LineColor",mParams.LineColor);
+    settings.setValue("LabelName",mParams.LabelName);
     settings.endGroup();
     //settings.sync();
     return true;
@@ -49,10 +55,13 @@ void IniParams::showModify()
     mParamsEdit = mParams;
 }
 
-void IniParams::updataParams()
+void IniParams::updataParams(bool bSave)
 {
-    mParams = mParamsEdit;
-    emit ParamsChange();
+    if(bSave){
+        mParams = mParamsEdit;
+        emit ParamsChange();
+        saveIni();
+    }
     view->close();
-    saveIni();
+
 }

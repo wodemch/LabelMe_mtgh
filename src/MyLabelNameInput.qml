@@ -4,6 +4,14 @@ import QtQuick.Layouts 1.3
 Popup{
     id:pp
     signal okClose(string val)
+    signal addOneLabel(string labelname)
+    // 新增函数
+    function initAddOne(labelName) {
+        addOneLabel(labelName)
+    }
+    function clearAll() {
+        listView.model.clear()
+    }
     Rectangle {
         width: parent.width
         height: parent.height
@@ -43,7 +51,7 @@ Popup{
 
         // 3. 定义model
         Component {
-            id: phoneModel
+            id: phoneModel            
             ListModel {
                 ListElement{name: "rect"}
                 ListElement{name: "polygon"}
@@ -135,9 +143,15 @@ Popup{
                                  })
                 }
             }
+            function addOne(labelName) {
+                model.append({
+                                 "name": labelName
+                             })
+            }
             // 连接信号槽
             Component.onCompleted: {
                 okClose.connect(listView.insert)
+                addOneLabel.connect(listView.addOne)
             }
         }
     }

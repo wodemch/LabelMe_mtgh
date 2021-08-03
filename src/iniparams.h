@@ -13,6 +13,7 @@ typedef  struct Params_
     int SaveFormt;
     int LineWidth;
     QColor LineColor;
+    QString LabelName;//a,b,c
 }Params;
 
 class IniParams: public QObject
@@ -24,8 +25,10 @@ class IniParams: public QObject
     Q_PROPERTY(int saveFormt READ saveFormt WRITE setsaveFormt NOTIFY saveFormtChange)
     Q_PROPERTY(int lineWidth READ lineWidth WRITE setlineWidth NOTIFY lineWidthChange)
     Q_PROPERTY(QColor lineColor READ lineColor WRITE setlineColor NOTIFY lineColorChange)
+    Q_PROPERTY(QString labelName READ labelName WRITE setlabelName NOTIFY labelNameChange)
 public:
     explicit IniParams(QObject *parent = nullptr);
+    ~IniParams();
     bool readIni();
     bool saveIni();
     void showModify();
@@ -41,13 +44,17 @@ public:
     QColor lineColor(){return mParams.LineColor;}
     void setlineColor(QColor s){mParamsEdit.LineColor = s;}
 
-    Q_INVOKABLE void updataParams();
+    QString labelName(){return mParams.LabelName;}
+    void setlabelName(QString s){mParams.LabelName = s;}
+
+    Q_INVOKABLE void updataParams(bool bSave);
 signals:
     void sizeChange(QSize s);
     void autoSaveChange(bool s);
     void saveFormtChange(int s);
     void lineWidthChange(int s);
     void lineColorChange(QColor s);
+    void labelNameChange(QColor s);
     void ParamsChange();
 private:
     QString mfileName;

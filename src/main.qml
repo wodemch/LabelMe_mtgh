@@ -22,6 +22,7 @@ Window {
     property int edgeMargin: 2
     property double resetScale:1
     property bool enableCircle:true
+    property bool firstEnter:true
 
     width: winWidth
     height: winHeight
@@ -132,7 +133,7 @@ Window {
         id:lebelInputer
         parent: parent
         width: 360
-        height: 300
+        height: 400
         x:(parent.width-width)/2
         y:(parent.height-height)/2
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
@@ -155,27 +156,17 @@ Window {
             createRect.enabled = false
             createpolygon.enabled = true
             createCircle.enabled = true&enableCircle
-            selectRect.enabled = true
             break;
         case 1:
             createRect.enabled = true
             createpolygon.enabled = false
             createCircle.enabled = true&enableCircle
-            selectRect.enabled = true
             break;
         case 2:
             createRect.enabled = true
             createpolygon.enabled = true
             createCircle.enabled = false&enableCircle
-            selectRect.enabled = true
             break;
-        case 3:
-            createRect.enabled = true
-            createpolygon.enabled = true
-            createCircle.enabled = true&enableCircle
-            selectRect.enabled = false
-            break;
-
         }
     }
 
@@ -324,12 +315,12 @@ Window {
                         mainview.changeScale(0)
                         //console.log("缩放重置W"+mainview.width+" "+ mainview.ImgWidth)
                         //console.log("缩放重置H"+mainview.height+" "+ mainview.ImgHeight)
-                        var wS = mainview.width / mainview.ImgWidth
-                        var hS = mainview.height / mainview.ImgHeight
+                        var wS = mainview.width / mainview.ImgSize.width
+                        var hS = mainview.height / mainview.ImgSize.height
                         resetScale =  wS>hS?hS:wS
                         mainview.scale = resetScale
-                        mainview.x=mainview.width/2-mainview.ImgWidth/2
-                        mainview.y=mainview.height/2-mainview.ImgHeight/2
+                        mainview.x=mainview.width/2-mainview.ImgSize.width/2
+                        mainview.y=mainview.height/2-mainview.ImgSize.height/2
                     }
                 }
                 Button{
@@ -355,6 +346,15 @@ Window {
                     Connections {
                         target: mainview
                         onShowSelectLabelName:{
+                            if(firstEnter){
+                                firstEnter= false
+                                lebelInputer.clearAll()
+                                var listNmae = mainview.getLabelNameList()
+                                for (var i = 0; i < listNmae.length; i++){
+                                    lebelInputer.initAddOne(listNmae[i])
+                                }
+                            }
+
                             lebelInputer.open()
                         }
                     }
@@ -455,11 +455,11 @@ Window {
                     GroupBox{
                         title: qsTr("文件列表")
                         width: parent.width
-                         height: fileViewHeight
+                        height: fileViewHeight
                         font.pointSize: fontSize
                         ColumnLayout{
                             anchors.fill: parent
-                             anchors.top: parent.top
+                            anchors.top: parent.top
                             ListView {
                                 id: m_FileView
                                 width: parent.width

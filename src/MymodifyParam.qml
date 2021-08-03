@@ -15,7 +15,7 @@ Rectangle
 
     ColorDialog {
         id: colorDialog
-        currentColor: gg.lineColor
+        currentColor: gg === null?"red":gg.lineColor
         onColorChanged: {
             gg.lineColor=color
             rectColor.color = color
@@ -29,7 +29,7 @@ Rectangle
         MyText {
             id: tSizeW
             text: qsTr("窗口宽度:")
-            textInput: qsTr(gg.size.width.toString())
+            textInput: qsTr(gg === null?"5000":gg.size.width.toString())
             pointSize: gPointSize
             textInputWidth: 80
             onTextModify: {
@@ -39,7 +39,7 @@ Rectangle
         MyText {
             id: tSizeH
             text: qsTr("窗口高度:")
-            textInput: qsTr(gg.size.height.toString())
+            textInput: qsTr(gg === null?"5000":gg.size.height.toString())
             pointSize: gPointSize
             textInputWidth: 80
             onTextModify: {
@@ -51,7 +51,7 @@ Rectangle
             MyText {
                 id: tlineW
                 text: qsTr("轮廓线宽:")
-                textInput: qsTr(gg.lineWidth.toString())
+                textInput: qsTr(gg === null?"2":gg.lineWidth.toString())
                 pointSize: gPointSize
                 textInputWidth: 80
                 onTextModify: {
@@ -63,7 +63,7 @@ Rectangle
                 Layout.leftMargin: 185
                 width: 25
                 height: 25
-                color:gg.lineColor
+                color:gg === null?"red":gg.lineColor
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
@@ -82,7 +82,7 @@ Rectangle
             ComboBox{
                 id:combox
                 width: 80
-                currentIndex: gg.saveFormt
+                currentIndex: gg === null?0:gg.saveFormt
                 model: [ "LabelMeWin"]//, "labelme"
                 onCurrentIndexChanged: {
                     gg.saveFormt = currentIndex
@@ -91,7 +91,7 @@ Rectangle
             CheckBox{
                 id:ckAutosave
                 font.pointSize: gPointSize
-                checked: gg.autoSave
+                checked: gg === null?true:gg.autoSave
                 text: qsTr("自动保存json")
                 onClicked: {
                     gg.autoSave = checked
@@ -107,13 +107,16 @@ Rectangle
                 id:cancel
                 height: 20
                 text: qsTr("取消")
+                onClicked: {
+                    gg.updataParams(false)
+                }
             }
             Button{
                 id:ok
                 height: 20
                 text: qsTr("确定")
                 onClicked: {
-                    gg.updataParams()
+                    gg.updataParams(true)
                 }
             }
         }

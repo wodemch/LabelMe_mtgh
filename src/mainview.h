@@ -14,10 +14,10 @@ class MainView : public QQuickPaintedItem
 {
     Q_OBJECT
     Q_ENUMS(Etype)
-    Q_PROPERTY(int ImgWidth READ getImgWidth)
-    Q_PROPERTY(int ImgHeight READ getImgHeight)
+    Q_PROPERTY(QSize ImgSize READ getImgSize)
 public:
     explicit MainView(QQuickItem *parent = nullptr);
+    ~MainView();
 
 public:
     enum Etype
@@ -30,24 +30,21 @@ public:
         TYPE_SAVE
     };
 
-    int getImgWidth()
-    {
-        return ImagePix->width();
-    }
-    int getImgHeight()
-    {
-        return ImagePix->height();
+    QSize getImgSize(){
+        return ImagePix->size();
     }
 signals:
     void showSelectLabelName();
     void addLabelName(int index,QString labelName);
     void deleteLabelName(int index,QString labelName);
+    void labelNameChange(QString labelName);
 public slots:
     void changeScale(float fscale);
     bool doSomething(Etype type);
     void openImage(QUrl path);
     void deleteFile(QUrl str);
     void deleteOneGraph(int index);
+    QList<QString> getLabelNameList();
     /*绘图相关*/
 public:
     enum EButtons
@@ -84,6 +81,7 @@ private:
     float mScale;
     float mimgScale;
 
+    bool bSelectMode;
     IniParams* mIni;
     QString mOldfilepath;
 
