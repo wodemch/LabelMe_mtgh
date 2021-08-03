@@ -136,7 +136,8 @@ Window {
         height: 400
         x:(parent.width-width)/2
         y:(parent.height-height)/2
-        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+        closePolicy: Popup.NoAutoClose//禁止Esc键退出
+
         onOkClose: {
             mainview.modifyLabelName(val)
         }

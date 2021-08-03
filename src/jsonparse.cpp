@@ -123,7 +123,7 @@ bool jsonParse::saveJson_0()
 
     //写入文件
     QJsonDocument doc(jsonObj);
-    QByteArray ba=doc.toJson(QJsonDocument::Indented);
+    QByteArray ba=doc.toJson(QJsonDocument::Compact);
     if(!labelfile.open(QIODevice::WriteOnly)){
         qDebug()<<"file write error"<<endl;
         res = false;
