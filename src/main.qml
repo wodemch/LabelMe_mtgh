@@ -177,7 +177,6 @@ Window {
         title: qsTr("Please choose image files")
         //selectExisting: true
         //selectMultiple: false
-        folder: "file:///" + "E:/111" //shortcuts.pictures
         nameFilters: [qsTr("JPEG (*.jpg)"),qsTr("Bitmap (*.bmp)")]
         onAccepted: {
             folderList.folder = fileDlg.folder
@@ -491,9 +490,13 @@ Window {
                                     color: ListView.isCurrentItem?"darkgray":"white" //选中颜色设置
                                     border.color: Qt.lighter(color, 1.1)
                                     Text{
-                                        id:wrapper;
+                                        id:wrapper
                                         text: filePath
-                                        font.pointSize: 11
+                                        anchors.fill: parent
+                                        clip: true
+                                        horizontalAlignment:  Text.AlignRight
+                                        elide: Text.ElideLeft
+                                        font.pointSize: 12
                                     }
                                     MouseArea {
                                         anchors.fill: parent
