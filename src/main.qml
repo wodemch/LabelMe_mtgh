@@ -30,7 +30,7 @@ Window {
     //maximumHeight: winHeight
     minimumWidth: winWidth
     minimumHeight: winHeight
-    x:220
+    x:200
     y:50
     title: qsTr("LabelMe_mtgh")
 
