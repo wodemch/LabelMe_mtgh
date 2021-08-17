@@ -128,7 +128,7 @@ void MainView::changeScale(float fscale)
 }
 void MainView::keyPressEvent(QKeyEvent* event)
 {
-    if(event->key() == Qt::Key_Delete)
+    if(event->key() == Qt::Key_Escape)
     {
     }
 }
@@ -145,9 +145,12 @@ void MainView::mouseEnevt(int button,bool pressed,int x,int y)
         }
         break;
     case RIGHT_BUTTON:
-        mCurrentGraph.deletePoint();
+        if(mIni->rightButtonMode()==1){
+            mCurrentGraph.deletePoint();
+        }
         break;
     case MiddleButton:
+        mCurrentGraph.reset();
         break;
     default:
         break;

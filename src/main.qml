@@ -374,7 +374,7 @@ Window {
                         id: msArea
                         anchors.fill: mainview
                         drag.target: mainview
-                        acceptedButtons: Qt.LeftButton | Qt.RightButton
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton|Qt.MiddleButton
                         hoverEnabled: true //非按下状态 onPositionChanged
 
                         onClicked: {

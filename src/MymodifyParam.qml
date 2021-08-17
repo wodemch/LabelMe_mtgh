@@ -6,7 +6,7 @@ import Qt.labs.platform 1.1
 Rectangle
 {
     width: 500
-    height: 300
+    height: 350
 
     visible: true
     property int gPointSize: 14
@@ -22,7 +22,7 @@ Rectangle
         }
     }
     ColumnLayout{
-        spacing: 10
+        spacing: 5
         x:10
         y:10
         anchors.fill: parent
@@ -76,7 +76,7 @@ Rectangle
         RowLayout{
             spacing: 10
             Text {
-                text: qsTr("json保存格式")
+                text: qsTr("json保存格式:")
                 font.pointSize: gPointSize
             }
             ComboBox{
@@ -95,6 +95,22 @@ Rectangle
                 text: qsTr("自动保存json")
                 onClicked: {
                     gg.autoSave = checked
+                }
+            }
+        }
+        RowLayout{
+            spacing: 10
+            Text {
+                text: qsTr("右键操作模式:")
+                font.pointSize: gPointSize
+            }
+            ComboBox{
+                id:combox1
+                width: 80
+                currentIndex: gg === null?0:gg.rightButtonMode
+                model: [ "移动视图", "删除点"]
+                onCurrentIndexChanged: {
+                    gg.rightButtonMode = currentIndex
                 }
             }
         }

@@ -12,8 +12,8 @@ IniParams::IniParams(QObject *parent) : QObject(parent)
     view->engine()->rootContext()->setContextProperty("gg",this);
     view->setSource(QUrl("qrc:/MymodifyParam.qml"));
     //view->setFlag(Qt::WindowMinMaxButtonsHint);
-    view->setMinimumSize(QSize(500,300));
-    view->setMaximumSize(QSize(500,300));
+    view->setMinimumSize(QSize(500,350));
+    view->setMaximumSize(QSize(500,350));
     view->setModality(Qt::WindowModality::ApplicationModal);
 }
 IniParams::~IniParams()
@@ -30,6 +30,7 @@ bool IniParams::readIni()
     mParams.LineWidth = settings.value("LineWidth",2).toInt();
     mParams.LineColor = settings.value("LineColor","red").toString();
     mParams.LabelName = settings.value("LabelName","rect,polygon").toString();
+    mParams.RightButtonMode = settings.value("RightButtonMode",0).toInt();
     settings.endGroup();
     settings.sync();
     saveIni();
@@ -45,6 +46,7 @@ bool IniParams::saveIni()
     settings.setValue("LineWidth",mParams.LineWidth);
     settings.setValue("LineColor",mParams.LineColor);
     settings.setValue("LabelName",mParams.LabelName);
+    settings.setValue("RightButtonMode",mParams.RightButtonMode);
     settings.endGroup();
     //settings.sync();
     return true;

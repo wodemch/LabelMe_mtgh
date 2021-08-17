@@ -14,6 +14,7 @@ typedef  struct Params_
     int LineWidth;
     QColor LineColor;
     QString LabelName;//a,b,c
+    int RightButtonMode;//move cancel
 }Params;
 
 class IniParams: public QObject
@@ -26,6 +27,7 @@ class IniParams: public QObject
     Q_PROPERTY(int lineWidth READ lineWidth WRITE setlineWidth NOTIFY lineWidthChange)
     Q_PROPERTY(QColor lineColor READ lineColor WRITE setlineColor NOTIFY lineColorChange)
     Q_PROPERTY(QString labelName READ labelName WRITE setlabelName NOTIFY labelNameChange)
+    Q_PROPERTY(int rightButtonMode READ rightButtonMode WRITE setrightButtonMode NOTIFY rightButtonModeChange)
 public:
     explicit IniParams(QObject *parent = nullptr);
     ~IniParams();
@@ -46,6 +48,8 @@ public:
 
     QString labelName(){return mParams.LabelName;}
     void setlabelName(QString s){mParams.LabelName = s;}
+    int rightButtonMode(){return mParams.RightButtonMode;}
+    void setrightButtonMode(int s){mParamsEdit.RightButtonMode = s;}
 
     Q_INVOKABLE void updataParams(bool bSave);
 signals:
@@ -55,6 +59,7 @@ signals:
     void lineWidthChange(int s);
     void lineColorChange(QColor s);
     void labelNameChange(QColor s);
+    void rightButtonModeChange(int s);
     void ParamsChange();
 private:
     QString mfileName;
